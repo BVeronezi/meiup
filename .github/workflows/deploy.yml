@@ -29,8 +29,8 @@ jobs:
         with:
           submodules: recursive
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.ORG_ID}} #Required
-          vercel-project-id: ${{ secrets.PROJECT_ID}} #Required
+          vercel-org-id: ${{ secrets.ORG_ID}}
+          vercel-project-id: ${{ secrets.PROJECT_ID}}
           working-directory: frontend
   backend:
     runs-on: ubuntu-latest
