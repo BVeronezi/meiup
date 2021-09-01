@@ -25,11 +25,11 @@ jobs:
       - analysis
     steps:
       - uses: actions/checkout@v2
-        with: 
+        with:
           submodules: recursive
       - name: Login no Heroku Container
         working-directory: frontend
-        env: 
+        env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login
       - name: Build docker image
@@ -46,18 +46,9 @@ jobs:
         run: docker push registry.heroku.com/${{ secrets.HEROKU_FRONTEND_APP_NAME }}/web
       - name: Release to Heroku
         working-directory: frontend
-        env: 
+        env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:release -a ${{ secrets.HEROKU_FRONTEND_APP_NAME }} web
-    steps:
-      - uses: actions/checkout@v2
-      - uses: amondnet/vercel-action@v20
-        with:
-          submodules: recursive
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.ORG_ID}}
-          vercel-project-id: ${{ secrets.PROJECT_ID}}
-          working-directory: frontend
   backend:
     runs-on: ubuntu-latest
     needs:
