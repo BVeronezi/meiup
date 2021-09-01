@@ -33,4 +33,14 @@ Por meio do [Github Actions](https://github.com/features/actions) todos os **com
 
 > Link do Heroku [Backend](https://meiup-api.herokuapp.com/swagger/)
 
-> Link da Vercel [Frontend](https://meiup.vercel.app/)
+> Link da Vercel [Frontend](https://meiup-frontend.herokuapp.com//)
+
+---
+
+## Atualizando a codebase
+
+Para atualizar os submodules ao dar pull utilizar:
+
+```bash
+git pull --recurse-submodules
+```
