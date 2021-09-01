@@ -19,10 +19,34 @@ jobs:
           working-directory: |
             backend
             frontend
+  backend:
+    runs-on: ubuntu-latest
+    needs:
+      - analysis
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Login no Heroku Container
+        working-directory: backend
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login
+      - name: Push Container to Heroku
+        working-directory: backend
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:push -a ${{ secrets.HEROKU_BACKEND_APP_NAME }} web
+      - name: Release to Heroku
+        working-directory: backend
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:release -a ${{ secrets.HEROKU_BACKEND_APP_NAME }} web
   frontend:
     runs-on: ubuntu-latest
     needs:
       - analysis
+      - backend
     steps:
       - uses: actions/checkout@v2
         with:
@@ -49,26 +73,3 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:release -a ${{ secrets.HEROKU_FRONTEND_APP_NAME }} web
-  backend:
-    runs-on: ubuntu-latest
-    needs:
-      - analysis
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: recursive
-      - name: Login no Heroku Container
-        working-directory: backend
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login
-      - name: Push Container to Heroku
-        working-directory: backend
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:push -a ${{ secrets.HEROKU_BACKEND_APP_NAME }} web
-      - name: Release to Heroku
-        working-directory: backend
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release -a ${{ secrets.HEROKU_BACKEND_APP_NAME }} web
