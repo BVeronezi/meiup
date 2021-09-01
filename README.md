@@ -33,7 +33,7 @@ Por meio do [Github Actions](https://github.com/features/actions) todos os **com
 
 > Link do Heroku [Backend](https://meiup-api.herokuapp.com/swagger/)
 
-> Link da Vercel [Frontend](https://meiup-frontend.herokuapp.com//)
+> Link do Heroku [Frontend](https://meiup-frontend.herokuapp.com)
 
 ---
 
