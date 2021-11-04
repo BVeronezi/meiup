@@ -1,4 +1,6 @@
 name: Deploy
+node_js:
+  - 16 #
 on:
   push:
     branches: [main]
@@ -62,6 +64,7 @@ jobs:
         working-directory: frontend
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          NODE_OPTIONS=--openssl-legacy-provider
         run: |
           docker build . -f Dockerfile.web -t frontend
           docker tag frontend registry.heroku.com/${{ secrets.HEROKU_FRONTEND_APP_NAME }}/web
