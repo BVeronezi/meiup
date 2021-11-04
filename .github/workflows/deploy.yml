@@ -49,20 +49,13 @@ jobs:
       - backend
     steps:
       - uses: actions/checkout@v2
-      - name: Setup NODE
-        working-directory: frontend
-        env:
-          NODE_OPTIONS: "--openssl-legacy-provider"
-        uses: actions/setup-node@v2
         with:
-          node-version: "16"
-
+          submodules: recursive
       - name: Login no Heroku Container
         working-directory: frontend
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login
-
       - name: Build docker image
         working-directory: frontend
         env:
@@ -70,13 +63,11 @@ jobs:
         run: |
           docker build . -f Dockerfile.web -t frontend
           docker tag frontend registry.heroku.com/${{ secrets.HEROKU_FRONTEND_APP_NAME }}/web
-
       - name: Push docker image to Heroku
         working-directory: frontend
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: docker push registry.heroku.com/${{ secrets.HEROKU_FRONTEND_APP_NAME }}/web
-
       - name: Release to Heroku
         working-directory: frontend
         env:
