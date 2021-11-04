@@ -48,10 +48,6 @@ jobs:
       - analysis
       - backend
     steps:
-      - uses: actions/setup-node@v2
-        with:
-          node-version: "16"
-      - run: npm install
       - uses: actions/checkout@v2
         with:
           submodules: recursive
@@ -63,7 +59,11 @@ jobs:
       - name: Build docker image
         working-directory: frontend
         env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}        
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - run: npm install
         run: |
           docker build . -f Dockerfile.web -t frontend
           docker tag frontend registry.heroku.com/${{ secrets.HEROKU_FRONTEND_APP_NAME }}/web
