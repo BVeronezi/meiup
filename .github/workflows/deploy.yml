@@ -1,6 +1,4 @@
 name: Deploy
-node_js:
-  - 16 #
 on:
   push:
     branches: [main]
@@ -21,6 +19,12 @@ jobs:
           working-directory: |
             backend
             frontend
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          working-directory: |
+            frontend
+          node-version: "16"
   backend:
     runs-on: ubuntu-latest
     needs:
